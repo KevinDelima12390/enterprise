@@ -1,0 +1,35 @@
+      @model IEnumerable<MedicalClaimSystem.Controllers.UserViewModel>
+      @{
+        ViewData["Title"] = "User Management";
+      }
+
+      <h1>User Management</h1>
+
+      <table class="table">
+          <thead>
+            <tr>
+              <th>Email</th>
+               <th>User Name</th>
+               <th>Roles</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+           <tbody>
+      @foreach (var item in Model)
+       {
+         <tr>
+              <td>@item.Email</td>
+               <td>@item.UserName</td>
+               <td>
+                @foreach(var role in item.Roles){
+                  @role;
+                }
+             </td>
+               <td>
+                  <a asp-action="ManageRoles" asp-route-id="@item.Id">Manage Roles</a>
+               </td>
+           </tr>
+       }
+       </tbody>
+      </table>
+     

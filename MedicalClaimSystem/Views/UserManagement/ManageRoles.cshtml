@@ -1,0 +1,36 @@
+@model MedicalClaimSystem.Controllers.UserRolesViewModel;
+@{
+    ViewData["Title"] = "Manage User Roles";
+}
+
+<h1>Manage User Roles</h1>
+
+<form asp-action="ManageRoles" method="post">
+    <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="UserName" />
+    <input type="hidden" asp-for="Email" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Assigned</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.AllRoles.Count; i++)
+            {
+                <tr>
+                    <td> @Model.AllRoles[i] </td>
+                    <td>
+                        <input type="checkbox" name="SelectedRoles" value="@Model.AllRoles[i]" checked="@(Model.Roles.Contains(Model.AllRoles[i]))" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</form>

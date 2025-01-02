@@ -1,0 +1,84 @@
+@model IEnumerable<MedicalClaimSystem.Models.Claim>
+
+@{
+    ViewData["Title"] = "Claims";
+}
+
+<h1>Claims</h1>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">@TempData["Message"]</div>
+}
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               ID
+            </th>
+             <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ClaimTypeSortParm"]">
+                    Claim Type
+                </a>
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AmountSortParm"]">
+                    Amount
+                </a>
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Submission Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.ClaimType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmissionDate)
+                </td>
+               <td>
+                   @if (User.IsInRole("Admin") || User.IsInRole("Management"))
+                    {
+                      <a asp-action="Approve" asp-route-id="@item.Id">Approve</a>
+                      <span>|</span>
+                      <a asp-action="Reject" asp-route-id="@item.Id">Reject</a>
+                      <span>|</span>
+                    }
+
+                     @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                       <span>|</span>
+                       <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
